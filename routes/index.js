@@ -1,9 +1,11 @@
 var express = require('express');
 var router = express.Router();
-
+var http = require('http');
+var io = require('socket.io')(http);
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  
+  res.render('index', { title: 'Jason' });
 });
 router.get('/login',function(req,res){
 	res.render('login',{title:'用户登录'});
@@ -34,6 +36,18 @@ res.redirect('/home');
 res.redirect('/login');
 }
 });
+
+
+
+io.on('connection',function(socket){
+ console.log(' a user connected');
+ socket.on('login',function(obj) {
+ 	// body...
+ 	socket.name= obj.userid ;
+ 	
+ });
+});
+
 
 
 module.exports = router;
